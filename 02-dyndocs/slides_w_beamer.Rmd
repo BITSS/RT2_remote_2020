@@ -14,7 +14,9 @@ header-includes:
 ---
 
 ```{r global pars, eval=TRUE, echo=FALSE, results='hide'}
-n.pers = 20
+n.pers = 11
+set.seed(142857)
+n.sims.param = 1e3
 ```  
 
 # Dynamic Documents For Computational Reproducibility
@@ -23,7 +25,7 @@ n.pers = 20
 
 - Have the latest version of R and RStudio installed   
 - Please clone the following repo to your computer:
-[github.com/BITSS/RT2_DC_2019](https://github.com/BITSS/RT2_DC_2019)
+[github.com/BITSS/RT2_DC_2020](https://github.com/BITSS/RT2_DC_2020)
 
 ## Dynamic Documents For Computational Reproducibility
 - Based on principles of *literate programming* aims at combining code and paper in one single document 
@@ -75,7 +77,7 @@ google: `"online markdown editor"`
 ```{r smpl yml, eval=FALSE, echo=TRUE}
 ---
 title: "Sample Paper"
-author: "Fernando Hoces de la Guardia"
+author: "Fernando Hoces"
 output: html_document
 ---
 ```  
@@ -169,9 +171,9 @@ Not relevant to look at: just copy and paste lines 23-30 from the solutions into
 ```
 
 ## Don't like math? Let's run a simple simulation!   
- 1 - Simulate 10,000 rooms with $n = `r n.pers`$ random birthdays, and store the results in matrix where each row represents a room.   
+ 1 - Simulate `r format(n.sims.param, big.mark = ",", scientific = FALSE)` rooms with $n = `r n.pers`$ random birthdays, and store the results in matrix where each row represents a room.   
  2 - For each room (row) compute the number of unique birthdays.   
- 3 - Compute the average number of times a room has `r n.pers` unique birthdays, across 10,000 simulations, and report the complement.    
+ 3 - Compute the average number of times a room has `r n.pers` unique birthdays, across `r format(n.sims.param, big.mark = ",", scientific = FALSE)` simulations, and report the complement.    
 
 
 ## Code for the simulation (`/first_dd_solution.Rmd`)  
@@ -184,23 +186,22 @@ birthday.prob = function(n.pers, n.sims) {
                       nrow = n.sims, ncol = n.pers)
   # for each room (row) get unique birthdays
   unique.birthdays = apply(birthdays, 1, 
-                           function(x) 
-                             length(unique(x)) )
+                           function(x) length(unique(x)) )
   # Indicator with 1 if all are unique birthdays
   all.different = 1 * (unique.birthdays==n.pers)
   # Compute average time all have different birthdays 
   result = 1 - mean(all.different)
 return(result)
 }
-n.pers.param = n.pers; n.sims.param = 1e4
-birthday.prob(n.pers.param,n.sims.param)
+n.pers.param = n.pers 
+sim.prob <- birthday.prob(n.pers.param,n.sims.param); sim.prob
 ```
 
 
 ## Results   
 - Many people originally think of a prob ~ $\frac{1}{365} \times N =$   `r round(1/365 * n.pers.param, 3)`
 - However the true probability is of $p(n= `r n.pers.param`) = `r round(1 - factorial(n.pers.param) * choose(365,n.pers.param)/ 365^n.pers.param, 3)`$
-- And the simulated probability is of  `r birthday.prob(n.pers = n.pers.param, n.sims = n.sims.param)`
+- And the simulated probability is of  `r sim.prob`
 
 
 # Practical Excercise #2
@@ -254,9 +255,27 @@ We will go step by step using `/2-dynamicdocs/Figure 5-2-4_solutions.Rmd` as bac
 ````
 ```{r download data, eval=FALSE, echo=TRUE, 
 warning=FALSE, results='hide', message=FALSE}`r ''`
-here goes the code
+# Download the data and unzip it
+download.file(
+'http://economics.mit.edu/~dautor/outsourcingatwill_table7.zip', 
+'outsourcingatwill_table7.zip'
+)
+unzip('outsourcingatwill_table7.zip')
 ```
 ````
+
+
+## Code chunk \#2
+
+
+````
+```{r load data, echo=TRUE, warning=FALSE, 
+results='hide', message=FALSE}`r ''`
+# Load the data
+autor <- read.dta('table7/autor-jole-2003.dta')
+```
+````
+
 
 
 ## Cleaning the data
@@ -264,11 +283,13 @@ here goes the code
 - Begin a new section (`##`), titled "Data Cleaning".   
 - Describe what you will do:  
     - Restrict sample to years between 1979 and 1995 (inclusive)  
-    - Guam from the sample (state = 98).   
+    - Remove Guam from the sample (state = 98).   
 - Create one code chunk:  
 ````
 ```{r data cleaning, echo=TRUE}`r ''`
-here goes the code
+# Restrict sample
+autor <- autor[which(autor$year >= 79 & autor$year <= 95), ]
+autor <- autor[which(autor$state != 98), ]
 ```
 ````
 
@@ -285,7 +306,15 @@ here goes the code
 
 ````
 ```{r analytic file, echo=TRUE}`r ''`
-here goes the code
+# Log total employment: from BLS employment & earnings
+autor$lnemp <- log(autor$annemp)
+
+# Normalize year to 1978
+autor$t  <- autor$year - 78
+
+# Create state and year factors (required format for fe reg package)
+autor$state <- factor(autor$state)
+autor$year  <- factor(autor$year)
 ```
 ````
 
