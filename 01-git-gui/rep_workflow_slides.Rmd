@@ -1,7 +1,7 @@
 ---
 title: 'Git for Non-Programmers'
-author: "| Fernando Hoces de la Guardia\n| BITSS   \n| -\n| Slides at \n <https://github.com/BITSS/RT2_DC_2019>\n"
-date: "Washington DC, September 2019"
+author: "| Fernando Hoces \n| BITSS   \n| -\n| Slides at \n <https://github.com/BITSS/RT2_remote_2020>\n"
+date: "Remote, September 2020"
 output:
   beamer_presentation:
     slide_level: 2
@@ -158,7 +158,7 @@ talk about undo here
 ## Demo #1: We Start in the Cloud 
 
 1 -  Create [github.com](github.com) account and sign in.   
-2 -  Let's look at some **repos**.   
+2 -  Let's look at some **repos**. [Research](https://www.policyinsights.org), [Comunication](https://github.com/NickCH-K/causalgraphs), [Teaching](http://edrub.in/index.html)   
 3 -  First way to access content: download.   
 4 -  What if you want to have your own copy of the repo? **Fork** it!.  
 5 -  Now create your own repo. Initiate readme and make some edits.   
@@ -247,8 +247,7 @@ talk about undo here
 ## Demo #4: Many owners
     
 1 - Half of you (#1): go back to the repo of demo 1 & 2 and invite a collaborator.  
-(Suggestion: the "forker" creates the repo, the "forkee" is invited  
-, edit, commit, push/pull)  
+(Suggestion: the "forker" creates the repo, the "forkee" is invited, edits, commits, pushes)  
 \pause  
 2 - The other half (#2): clones, commits and pushes.  
 \pause  
@@ -299,31 +298,6 @@ talk about undo here
     Review: collaborate via share ownership.  
 5 - Explore a real life repo.  
     *Review: All of the above, plus: how does a real-life example looks like.* 
-
-
-## Bonus Demo: Look inside a half-way project (and collaborate!)
-
-Description:   
-
-- Half baked project, forgotten from a few years.    
-- Exploratory analysis of publication trends in NBER working paper series. Back then inspired by a paper from [DellaVigna and Card](https://eml.berkeley.edu/~sdellavi/wp/CardDellaVignaTop5PapersJEL2013.pdf).  
-- Now there is more literature around this: [Chari and Goldsmith-Pinkham](http://www.nber.org/papers/w23953).   
-
-- I will use github to share my work with you, do a little exercise, and invite you to collaborate. 
-
-    
-## Demo #X: Look inside a half-way project (and collaborate!)
-
-1-  Find the following repo: `github.com/fhoces/nber_trends`.   
-2-  Fork it and clone it.    
-3-  Open it in your computer: `nber_trends.Rproj` (needs RStudio), look around and execute up to the section (`Verifying gender [WORKSHOP SECTION]`).  
-4-  Generate random number like this: `num1 = sample(20000, 1)`.  
-5-  Look the name and (imputed) gender of the author in row `num1`. This is done by typing:  
-`temp3[num1,c("name", "gender")]` in the console.   
-6-  Create the following line at the end of the script: `verification <- cbind(temp3[num1,c("name", "gender")], "rownum" = num1, "correct" = 1)`.  
-7-  Save, commit, push and create a pull request.  
-8-  Feel free to look around create more contributions if you like. Happy to co-author.   
-
 
 
 ## Now go and explore!

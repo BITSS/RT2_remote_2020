@@ -35,4 +35,6 @@ If you could not install LaTeX previously, run the following 2 lines of code in 
 
 
 ### 5. Materials
-  - Folder ` ` contains 
+  - Folder `01-git-gui` contains the slides for the git/github tutorial  
+  - Folder `02-dyndocs` contains the slides for the dynamic documents tutorial with R  
+  - File `handout.pdf` contains some short descriptions of the terminology used in git/github
